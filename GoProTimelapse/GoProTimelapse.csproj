@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://www.journeyofcode.com/clickonce/goprotimelapse/</InstallUrl>
-    <SupportUrl>http://www.journeyofcode.com/gopro-timelapse/</SupportUrl>
+    <SupportUrl>http://www.journeyofcode.com/projects/gopro-timelapse/</SupportUrl>
     <ProductName>GoPro Timelapse</ProductName>
     <PublisherName>Matthias Welz</PublisherName>
     <SuiteName>GoPro Timelapse</SuiteName>

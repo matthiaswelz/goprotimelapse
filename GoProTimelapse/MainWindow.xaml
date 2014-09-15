@@ -1,10 +1,8 @@
 ﻿<Window x:Class="GoProTimelapse.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:goProTimelapse="clr-namespace:GoProTimelapse"
         xmlns:viewModels="clr-namespace:GoProTimelapse.ViewModels"
         xmlns:extensions="clr-namespace:GoProTimelapse.Extensions"
-        xmlns:sorting="clr-namespace:GoProTimelapse.ViewModels.Sorting"
         Title="MainWindow" Height="550" Width="650">
     <Window.DataContext>
         <viewModels:MainViewModel />
@@ -76,7 +74,7 @@
         <StackPanel Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,5,5,5" HorizontalAlignment="Right">
             <TextBlock><Hyperlink extensions:HyperlinkExtensions.WebUrl="http://www.journeyofcode.com/">Matthias Welz (journeyofcode.com)</Hyperlink></TextBlock>
             <TextBlock Margin="5 0">-</TextBlock>
-            <TextBlock><Hyperlink extensions:HyperlinkExtensions.WebUrl="http://www.journeyofcode.com/gopro-timelapse/">GoProTimelapse</Hyperlink></TextBlock>
+            <TextBlock><Hyperlink extensions:HyperlinkExtensions.WebUrl="http://www.journeyofcode.com/projects/gopro-timelapse/">GoProTimelapse</Hyperlink></TextBlock>
         </StackPanel>
 
         <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="12" extensions:VisibilityExtensions.IsNotCollapsed="{Binding IsBusy}">
