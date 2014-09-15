@@ -1,6 +1,6 @@
 # GoProTimelapse
 
-[Visit the project page for more information](http://www.journeyofcode.com/gopro-timelapse/)  
+[Visit the project page for more information](http://www.journeyofcode.com/projects/gopro-timelapse/)  
 [Run directly via ClickOnce](http://www.journeyofcode.com/clickonce/goprotimelapse/GoProTimelapse.application)
 
 ## Description
