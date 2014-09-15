@@ -1,16 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using GoProTimelapse.Annotations;
 
-namespace GoProTimelapse
+namespace GoProTimelapse.ViewModels
 {
     public abstract class ViewModelBase
         : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = this.PropertyChanged;

@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoProTimelapse
+namespace GoProTimelapse.Extensions
 {
     public static class TaskFactoryExtensions
     {

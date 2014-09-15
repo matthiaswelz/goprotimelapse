@@ -1,6 +1,6 @@
 using System;
 
-namespace GoProTimelapse
+namespace GoProTimelapse.Helpers
 {
     internal sealed class Disposer 
         : IDisposable

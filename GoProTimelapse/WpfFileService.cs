@@ -21,19 +21,6 @@ namespace GoProTimelapse
             return dialog.FileName;
         }
 
-        public string SelectFile(string extension = null)
-        {
-            var dialog = new OpenFileDialog();
-            dialog.Multiselect = false;
-            dialog.Filter = "Files|*." + (extension ?? "*");
-            dialog.AddExtension = extension != null;
-
-            if (!dialog.ShowDialog().GetValueOrDefault(false))
-                return null;
-
-            return dialog.FileName;
-        }
-
         public IEnumerable<string> SelectFiles(string extension = null)
         {
             var dialog = new OpenFileDialog();

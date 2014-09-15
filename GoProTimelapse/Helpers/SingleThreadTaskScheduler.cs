@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GoProTimelapse
+namespace GoProTimelapse.Helpers
 {
     public sealed class SingleThreadTaskScheduler
         : TaskScheduler, IDisposable

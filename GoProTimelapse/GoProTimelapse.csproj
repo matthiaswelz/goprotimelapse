@@ -91,16 +91,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="Disposer.cs" />
-    <Compile Include="HyperlinkExtensions.cs" />
-    <Compile Include="TaskFactoryExtensions.cs" />
-    <Compile Include="VideoMetadataProvider.cs" />
-    <Compile Include="FileViewModel.cs" />
+    <Compile Include="Extensions\VisibilityExtensions.cs" />
+    <Compile Include="Helpers\Disposer.cs" />
+    <Compile Include="ViewModels\Sorting\ModificationDateSortOrder.cs" />
+    <Compile Include="ViewModels\Sorting\CreationDateSortOrder.cs" />
+    <Compile Include="ViewModels\Sorting\FilenameSortOrder.cs" />
+    <Compile Include="ViewModels\Sorting\FileSortOrder.cs" />
+    <Compile Include="Extensions\HyperlinkExtensions.cs" />
+    <Compile Include="Extensions\TaskFactoryExtensions.cs" />
+    <Compile Include="Helpers\VideoMetadataProvider.cs" />
+    <Compile Include="ViewModels\FileViewModel.cs" />
     <Compile Include="IFileService.cs" />
-    <Compile Include="ListExtensions.cs" />
-    <Compile Include="SingleThreadTaskScheduler.cs" />
-    <Compile Include="TempFile.cs" />
-    <Compile Include="ViewModelBase.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Helpers\SingleThreadTaskScheduler.cs" />
+    <Compile Include="Helpers\TempFile.cs" />
+    <Compile Include="ViewModels\Sorting\GoProFileNameSorting.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="WpfFileService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -110,14 +116,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -173,6 +178,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

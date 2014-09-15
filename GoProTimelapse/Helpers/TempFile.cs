@@ -2,9 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
-using IOPath = System.IO.Path;
 
-namespace GoProTimelapse
+namespace GoProTimelapse.Helpers
 {
     public sealed class TempFile
         : CriticalFinalizerObject, IDisposable
@@ -13,7 +12,7 @@ namespace GoProTimelapse
 
         public TempFile(string extension = null)
         {
-            this.Path = IOPath.Combine(IOPath.GetTempPath(), IOPath.GetRandomFileName() + "." + (extension ?? "tmp"));
+            this.Path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName() + "." + (extension ?? "tmp"));
         }
 
         ~TempFile()

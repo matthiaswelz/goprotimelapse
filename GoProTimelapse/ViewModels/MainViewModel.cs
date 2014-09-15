@@ -5,23 +5,29 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
-using MessageBox = System.Windows.MessageBox;
+using GoProTimelapse.Extensions;
+using GoProTimelapse.Helpers;
+using GoProTimelapse.ViewModels.Sorting;
 
-namespace GoProTimelapse
+namespace GoProTimelapse.ViewModels
 {
     public class MainViewModel
         : ViewModelBase
     {
-        private readonly IFileService _fileService = new WpfFileService();
-
+        private bool _awaitingSort;
         private bool _isBusy;
         private string _taskText;
         private string _outputFile;
         private string _targetFpsText;
         private string _targetDurationText;
         private FileViewModel _selectedFile;
+        private FileSortOrder _sortOrder;
+
+        private readonly IFileService _fileService = new WpfFileService();
         private readonly ObservableCollection<FileViewModel> _files;
+        private readonly ObservableCollection<FileSortOrder> _sortOrders;
 
         public ICommand AddFileCommand { get; private set; }
         public ICommand AddDirectoryCommand { get; private set; }
@@ -44,7 +50,7 @@ namespace GoProTimelapse
 
         public string TaskText
         {
-            get { return this._taskText ?? "Nothing to do"; }
+            get { return this._taskText; }
             private set
             {
                 if (value == this._taskText) return;
@@ -125,17 +131,45 @@ namespace GoProTimelapse
             }
         }
 
+        public FileSortOrder SortOrder
+        {
+            get { return this._sortOrder; }
+            set
+            {
+                if (Equals(value, this._sortOrder)) return;
+                this._sortOrder = value;
+                this.OnPropertyChanged();
+
+                this.QueueResort();
+            }
+        }
+
+        public ReadOnlyObservableCollection<FileSortOrder> SortOrders { get; private set; }
+
         public MainViewModel()
         {
             this._files = new ObservableCollection<FileViewModel>();
             this.Files = new ReadOnlyObservableCollection<FileViewModel>(this._files);
 
+            this._sortOrders = new ObservableCollection<FileSortOrder>();
+            this.SortOrders = new ReadOnlyObservableCollection<FileSortOrder>(this._sortOrders);
+
             this.TargetFPSText = "30";
             this.TargetDurationText = "00:01:00";
 
+            this.InitializeSortOrders();
             this.InitializeCommands();
         }
 
+        private void InitializeSortOrders()
+        {
+            this._sortOrders.Add(new CreationDateSortOrder());
+            this._sortOrders.Add(new FilenameSortOrder());
+            this._sortOrders.Add(new GoProFileNameSorting());
+            this._sortOrders.Add(new ModificationDateSortOrder());
+
+            this.SortOrder = this.SortOrders.FirstOrDefault();
+        }
 
         private void InitializeCommands()
         {
@@ -147,7 +181,6 @@ namespace GoProTimelapse
             this.SetOutputFileCommand = new DelegateCommand(this.SetOutputFile, this.CanDo);
             this.StartCommand = new DelegateCommand(this.Start, this.CanStart);
         }
-
 
         private bool CanDo()
         {
@@ -170,6 +203,17 @@ namespace GoProTimelapse
 
         private async void Start()
         {
+            if (!this.TargetFPS.HasValue || !this.TargetDuration.HasValue)
+            {
+                MessageBox.Show("Invalid FPS / Duration.");
+                return;
+            }
+            if (String.IsNullOrWhiteSpace(this.OutputFile))
+            {
+                MessageBox.Show("Please specify output file.");
+                return;
+            }
+
             using (this.DoTask("Working..."))
             {
                 this.TaskText = "Locating ffmpeg";
@@ -183,15 +227,13 @@ namespace GoProTimelapse
 
                 this.TaskText = "Determining video metadata";
 
-                await Task.Factory.StartNew(() => Task.WaitAll(this._files.Select(file => file.EnsureResults()).ToArray()));
+                await this.EnsureAllMetadata();
+
+                this.TaskText = "Performing Sort";
+
+                this.Sort();
 
                 this.TaskText = "Calculating duration";
-
-                if (!this.TargetFPS.HasValue || !this.TargetDuration.HasValue)
-                {
-                    MessageBox.Show("Invalid FPS / Duration.");
-                    return;
-                }
 
                 var targetFps = this.TargetFPS;
                 var targetDuration = this.TargetDuration.Value;
@@ -267,10 +309,12 @@ namespace GoProTimelapse
                 if (root == null)
                     return;
 
-                var files = await DoInBackground(() => Directory.EnumerateFiles(root, "*.mp4", option).Select(file => new FileViewModel(file)).ToArray());
+                var files = await this.DoInBackground(() => Directory.EnumerateFiles(root, "*.mp4", option).Select(file => new FileViewModel(file)).ToArray());
                 if (files != null)
                     this._files.AddRange(files);
             }
+
+            this.QueueResort();
         }
 
         private void AddFile()
@@ -280,6 +324,31 @@ namespace GoProTimelapse
                 return;
 
             this._files.AddRange(files.Select(f => new FileViewModel(f)));
+            this.QueueResort();
+        }
+
+        private async void QueueResort()
+        {
+            if (this.SortOrder == null || this._awaitingSort)
+                return;
+
+            this._awaitingSort = true;
+            if (this._files.Any(f => !f.HasLoadedMetadata))
+                await this.EnsureAllMetadata();
+
+            this.Sort();
+        }
+
+        private void Sort()
+        {
+            if (!this._awaitingSort)
+                return;
+
+            var sorted = this._files.OrderBy(f => f, this.SortOrder).ToArray();
+            this._files.Clear();
+            this._files.AddRange(sorted);
+
+            this._awaitingSort = false;
         }
 
         private IDisposable DoTask(string text)
@@ -287,6 +356,17 @@ namespace GoProTimelapse
             this.TaskText = text;
 
             return new Disposer(() => this.TaskText = null);
+        }
+
+        private Task EnsureAllMetadata()
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var missing = this._files.Where(f => !f.HasLoadedMetadata).ToArray();
+
+                foreach (var fileViewModel in missing)
+                    fileViewModel.EnsureMetadata();
+            });
         }
 
         private Task<T> DoInBackground<T>(Func<T> func)

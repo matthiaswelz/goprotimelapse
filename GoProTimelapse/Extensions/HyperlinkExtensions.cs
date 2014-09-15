@@ -4,11 +4,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace GoProTimelapse
+namespace GoProTimelapse.Extensions
 {
     public static class HyperlinkExtensions
     {
-        public static readonly DependencyProperty WebUrlProperty = DependencyProperty.RegisterAttached("WebUrl", typeof(string), typeof(Hyperlink), new PropertyMetadata(OnWebUrlChanged));
+        public static readonly DependencyProperty WebUrlProperty = DependencyProperty.RegisterAttached("WebUrl", typeof(string), typeof(HyperlinkExtensions), new PropertyMetadata(OnWebUrlChanged));
 
         public static void SetWebUrl(Hyperlink element, string value)
         {
