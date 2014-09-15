@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 using IOPath = System.IO.Path;
 
 namespace GoProTimelapse
@@ -38,7 +35,7 @@ namespace GoProTimelapse
 
                 GC.SuppressFinalize(this);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

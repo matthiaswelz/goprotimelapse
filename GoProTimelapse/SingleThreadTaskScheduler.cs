@@ -44,7 +44,7 @@ namespace GoProTimelapse
             if (this._thread != Thread.CurrentThread)
                 return false;
 
-            base.TryExecuteTask(task);
+            this.TryExecuteTask(task);
             return true;
         }
 
@@ -62,7 +62,7 @@ namespace GoProTimelapse
                 this._initAction();
 
                 foreach (var task in this._tasks.GetConsumingEnumerable(token))
-                    base.TryExecuteTask(task);
+                    this.TryExecuteTask(task);
             }
             finally
             {

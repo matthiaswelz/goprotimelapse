@@ -3,13 +3,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Navigation;
 
 namespace GoProTimelapse
 {
     public static class HyperlinkExtensions
     {
-        public static readonly DependencyProperty WebUrlProperty = DependencyProperty.RegisterAttached("WebUrl", typeof(string), typeof(Hyperlink), new PropertyMetadata(callback));
+        public static readonly DependencyProperty WebUrlProperty = DependencyProperty.RegisterAttached("WebUrl", typeof(string), typeof(Hyperlink), new PropertyMetadata(OnWebUrlChanged));
 
         public static void SetWebUrl(Hyperlink element, string value)
         {
@@ -19,7 +18,8 @@ namespace GoProTimelapse
         {
             return (string)element.GetValue(WebUrlProperty);
         }
-        private static void callback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+
+        private static void OnWebUrlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
                 ((Hyperlink)d).Click -= HyperlinkExtensions_Click;

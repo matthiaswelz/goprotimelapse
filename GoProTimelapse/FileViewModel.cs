@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace GoProTimelapse
@@ -74,8 +73,8 @@ namespace GoProTimelapse
             {
                 return new {
                     CreationDate = VideoMetadataProvider.Instance.GetCreationDate(this.FullPath),
-                    FPS = (int) await VideoMetadataProvider.Instance.GetFPS(this.FullPath),
-                    Duration = (TimeSpan) await VideoMetadataProvider.Instance.GetDuration(this.FullPath)
+                    FPS = await VideoMetadataProvider.Instance.GetFPS(this.FullPath),
+                    Duration = await VideoMetadataProvider.Instance.GetDuration(this.FullPath)
                 };
             }).Unwrap();
             this._task = task;
@@ -83,6 +82,7 @@ namespace GoProTimelapse
 
             this.Duration = data.Duration;
             this.FPS = data.FPS;
+            this.CreationDate = data.CreationDate;
         }
     }
 }
