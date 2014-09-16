@@ -1,8 +1,8 @@
-﻿<Window x:Class="GoProTimelapse.MainWindow"
+﻿<Window x:Class="journeyofcode.GoProTimelapse.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:viewModels="clr-namespace:GoProTimelapse.ViewModels"
-        xmlns:extensions="clr-namespace:GoProTimelapse.Extensions"
+        xmlns:viewModels="clr-namespace:journeyofcode.GoProTimelapse.ViewModels"
+        xmlns:extensions="clr-namespace:journeyofcode.GoProTimelapse.Extensions"
         Title="GoPro Time Lapse Generator" Height="550" Width="650">
     <Window.DataContext>
         <viewModels:MainViewModel />

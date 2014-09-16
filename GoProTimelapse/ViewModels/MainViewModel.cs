@@ -7,11 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using GoProTimelapse.Extensions;
-using GoProTimelapse.Helpers;
-using GoProTimelapse.ViewModels.Sorting;
+using journeyofcode.GoProTimelapse.Extensions;
+using journeyofcode.GoProTimelapse.Helpers;
+using journeyofcode.GoProTimelapse.ViewModels.Sorting;
 
-namespace GoProTimelapse.ViewModels
+namespace journeyofcode.GoProTimelapse.ViewModels
 {
     public class MainViewModel
         : ViewModelBase

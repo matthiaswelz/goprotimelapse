@@ -7,7 +7,7 @@
     <ProjectGuid>{22135EA7-62CF-4B3F-87D9-90F82D3E1DB1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GoProTimelapse</RootNamespace>
+    <RootNamespace>journeyofcode.GoProTimelapse</RootNamespace>
     <AssemblyName>GoProTimelapse</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -70,6 +70,9 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SingleThreadScheduler">
+      <HintPath>..\packages\journeyofcode.Threading.SingleThreadScheduler.nupkg.1.0.1\lib\net40-Client\SingleThreadScheduler.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -98,12 +101,10 @@
     <Compile Include="ViewModels\Sorting\FilenameSortOrder.cs" />
     <Compile Include="ViewModels\Sorting\FileSortOrder.cs" />
     <Compile Include="Extensions\HyperlinkExtensions.cs" />
-    <Compile Include="Extensions\TaskFactoryExtensions.cs" />
     <Compile Include="Helpers\VideoMetadataProvider.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
     <Compile Include="IFileService.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Helpers\SingleThreadTaskScheduler.cs" />
     <Compile Include="Helpers\TempFile.cs" />
     <Compile Include="ViewModels\Sorting\GoProFileNameSorting.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -141,6 +142,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="GoProTimelapse_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

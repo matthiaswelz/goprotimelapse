@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
-namespace GoProTimelapse
+namespace journeyofcode.GoProTimelapse
 {
     public sealed class WpfFileService
         : IFileService

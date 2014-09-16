@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace GoProTimelapse.ViewModels.Sorting
+namespace journeyofcode.GoProTimelapse.ViewModels.Sorting
 {
     public abstract class FileSortOrder
         : IComparer<FileViewModel>

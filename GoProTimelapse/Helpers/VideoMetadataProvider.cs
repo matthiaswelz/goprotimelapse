@@ -1,10 +1,10 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using GoProTimelapse.Extensions;
+using journeyofcode.Threading;
 using Shell32;
 
-namespace GoProTimelapse.Helpers
+namespace journeyofcode.GoProTimelapse.Helpers
 {
     public sealed class VideoMetadataProvider
         : IDisposable

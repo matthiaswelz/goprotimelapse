@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace GoProTimelapse.ViewModels
+namespace journeyofcode.GoProTimelapse.ViewModels
 {
     public abstract class ViewModelBase
         : INotifyPropertyChanged

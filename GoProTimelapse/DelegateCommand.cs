@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-namespace GoProTimelapse
+namespace journeyofcode.GoProTimelapse
 {
     public class DelegateCommand : ICommand
     {

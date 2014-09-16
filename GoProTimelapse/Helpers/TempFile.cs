@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 
-namespace GoProTimelapse.Helpers
+namespace journeyofcode.GoProTimelapse.Helpers
 {
     public sealed class TempFile
         : CriticalFinalizerObject, IDisposable

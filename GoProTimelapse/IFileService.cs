@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GoProTimelapse
+namespace journeyofcode.GoProTimelapse
 {
     public interface IFileService
     {

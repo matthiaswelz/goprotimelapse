@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using GoProTimelapse.Helpers;
+using journeyofcode.GoProTimelapse.Helpers;
 
-namespace GoProTimelapse.ViewModels
+namespace journeyofcode.GoProTimelapse.ViewModels
 {
     public sealed class FileViewModel
         : ViewModelBase

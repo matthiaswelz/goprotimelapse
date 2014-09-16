@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 
-namespace GoProTimelapse.Extensions
+namespace journeyofcode.GoProTimelapse.Extensions
 {
     public static class VisibilityExtensions
     {

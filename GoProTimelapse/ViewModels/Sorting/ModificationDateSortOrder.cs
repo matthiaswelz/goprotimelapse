@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace GoProTimelapse.ViewModels.Sorting
+namespace journeyofcode.GoProTimelapse.ViewModels.Sorting
 {
     public sealed class ModificationDateSortOrder
         : FileSortOrder

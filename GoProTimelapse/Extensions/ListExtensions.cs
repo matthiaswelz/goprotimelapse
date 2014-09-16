@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace GoProTimelapse.Extensions
+namespace journeyofcode.GoProTimelapse.Extensions
 {
     public static class ListExtensions
     {

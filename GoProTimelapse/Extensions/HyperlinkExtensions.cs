@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace GoProTimelapse.Extensions
+namespace journeyofcode.GoProTimelapse.Extensions
 {
     public static class HyperlinkExtensions
     {
