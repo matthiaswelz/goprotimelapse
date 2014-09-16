@@ -144,6 +144,26 @@ namespace GoProTimelapse.ViewModels
             }
         }
 
+        public TimeSpan? TotalDuration
+        {
+            get
+            {
+                if (this.Files.Count == 0)
+                    return new TimeSpan();
+                if (this.Files.Any(f => !f.HasLoadedMetadata))
+                    return null;
+                
+                return this.Files.Select(v => v.Duration.Value).Aggregate((a, b) => a.Add(b));
+            }
+        }
+        public string StatusText
+        {
+            get
+            {
+                return String.Format("{0} files - total duration: {1}", this.Files.Count, this.TotalDuration ?? (object) "<calculating>");
+            }
+        }
+
         public ReadOnlyObservableCollection<FileSortOrder> SortOrders { get; private set; }
 
         public MainViewModel()
@@ -240,7 +260,7 @@ namespace GoProTimelapse.ViewModels
                 var files = this._files.ToArray();
                 var outputFile = this.OutputFile;
 
-                var totalDuration = await Task.Factory.StartNew(() => files.Select(v => v.Duration.Value).Aggregate((a, b) => a.Add(b)));
+                var totalDuration = this.TotalDuration.Value;
                 var factor = (totalDuration.TotalSeconds / targetDuration.TotalSeconds);
 
                 this.TaskText = String.Format("Generating timelapse - {0} videos ({1}), Factor: {2:0.####}", files.Length, totalDuration, factor);
@@ -329,6 +349,8 @@ namespace GoProTimelapse.ViewModels
 
         private async void QueueResort()
         {
+            this.OnPropertyChanged("StatusText");
+
             if (this.SortOrder == null || this._awaitingSort)
                 return;
 
@@ -337,6 +359,7 @@ namespace GoProTimelapse.ViewModels
                 await this.EnsureAllMetadata();
 
             this.Sort();
+            this.OnPropertyChanged("StatusText");
         }
 
         private void Sort()

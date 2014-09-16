@@ -32,19 +32,15 @@ namespace GoProTimelapse.ViewModels
             {
                 if (value.Equals(this._duration)) return;
                 this._duration = value;
+                
                 this.OnPropertyChanged();
+                this.OnPropertyChanged("DurationText");
             }
         }
 
-        public int? FPS
+        public string DurationText
         {
-            get { return this._fps; }
-            private set
-            {
-                if (value == this._fps) return;
-                this._fps = value;
-                this.OnPropertyChanged();
-            }
+            get { return this.Duration.HasValue ? this.Duration.ToString() : "<calculating...>"; }
         }
 
         public DateTime? CreationDate
@@ -100,7 +96,6 @@ namespace GoProTimelapse.ViewModels
             var data = await task;
 
             this.Duration = data.Duration;
-            this.FPS = data.FPS;
             this.CreationDate = data.CreationDate;
             this.ModificationDate = data.ModificationDate;
         }
