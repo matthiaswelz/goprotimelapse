@@ -87,7 +87,6 @@ namespace GoProTimelapse.ViewModels
             {
                 return new {
                     CreationDate = File.GetCreationTimeUtc(this.FullPath),
-                    FPS = await VideoMetadataProvider.Instance.GetFPS(this.FullPath),
                     Duration = await VideoMetadataProvider.Instance.GetDuration(this.FullPath),
                     ModificationDate = File.GetLastWriteTimeUtc(this.FullPath)
                 };

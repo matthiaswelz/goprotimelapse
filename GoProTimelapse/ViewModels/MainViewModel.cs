@@ -152,7 +152,7 @@ namespace GoProTimelapse.ViewModels
                     return new TimeSpan();
                 if (this.Files.Any(f => !f.HasLoadedMetadata))
                     return null;
-                
+
                 return this.Files.Select(v => v.Duration.Value).Aggregate((a, b) => a.Add(b));
             }
         }
@@ -160,7 +160,7 @@ namespace GoProTimelapse.ViewModels
         {
             get
             {
-                return String.Format("{0} files - total duration: {1}", this.Files.Count, this.TotalDuration ?? (object) "<calculating>");
+                return String.Format("{0} files - total duration: {1}", this.Files.Count, this.TotalDuration ?? (object)"<calculating>");
             }
         }
 
@@ -329,7 +329,11 @@ namespace GoProTimelapse.ViewModels
                 if (root == null)
                     return;
 
-                var files = await this.DoInBackground(() => Directory.EnumerateFiles(root, "*.mp4", option).Select(file => new FileViewModel(file)).ToArray());
+                var files = await this.DoInBackground(() => Directory
+                    .EnumerateFiles(root, "*.mp4", option)
+                    .Where(file => !File.GetAttributes(file).HasFlag(FileAttributes.Hidden))
+                    .Select(file => new FileViewModel(file))
+                    .ToArray());
                 if (files != null)
                     this._files.AddRange(files);
             }
