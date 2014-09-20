@@ -32,7 +32,7 @@
     <SuiteName>GoPro Timelapse</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -70,8 +70,9 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SingleThreadScheduler">
-      <HintPath>..\packages\journeyofcode.Threading.SingleThreadScheduler.nupkg.1.0.1\lib\net40-Client\SingleThreadScheduler.dll</HintPath>
+    <Reference Include="SingleThreadScheduler, Version=1.0.5376.38027, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\journeyofcode.Threading.SingleThreadScheduler.nupkg.1.0.3\lib\net451\SingleThreadScheduler.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

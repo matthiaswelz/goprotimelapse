@@ -13,7 +13,7 @@ namespace journeyofcode.GoProTimelapse.ViewModels.Sorting
 
         public override int Compare(FileViewModel x, FileViewModel y)
         {
-            return x.ModificationDate.GetValueOrDefault(DateTime.MinValue).CompareTo(y.ModificationDate.GetValueOrDefault(DateTime.MinValue));
+            return x.ModificationDate.ValueOrDefault(DateTime.MinValue).CompareTo(y.ModificationDate.ValueOrDefault(DateTime.MinValue));
         }
     }
 }

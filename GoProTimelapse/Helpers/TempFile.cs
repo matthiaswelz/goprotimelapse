@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
@@ -34,9 +35,9 @@ namespace journeyofcode.GoProTimelapse.Helpers
 
                 GC.SuppressFinalize(this);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Trace.Fail(ex.ToString());
             }
         }
     }

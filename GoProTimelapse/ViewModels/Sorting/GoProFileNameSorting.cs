@@ -25,7 +25,7 @@ namespace journeyofcode.GoProTimelapse.ViewModels.Sorting
 
         private Tuple<int, int> ExtractNumber(string nameWithExtension)
         {
-            var name = Path.GetFileNameWithoutExtension(nameWithExtension);
+            var name = Path.GetFileNameWithoutExtension(nameWithExtension) ?? String.Empty;
             if (name.Length != 8)
                 return new Tuple<int, int>(0, 0);
 

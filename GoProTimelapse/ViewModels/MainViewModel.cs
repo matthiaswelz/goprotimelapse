@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+
 using journeyofcode.GoProTimelapse.Extensions;
 using journeyofcode.GoProTimelapse.Helpers;
 using journeyofcode.GoProTimelapse.ViewModels.Sorting;
@@ -150,7 +151,7 @@ namespace journeyofcode.GoProTimelapse.ViewModels
             {
                 if (this.Files.Count == 0)
                     return new TimeSpan();
-                if (this.Files.Any(f => !f.HasLoadedMetadata))
+                if (this.Files.Any(f => !f.Duration.IsReady))
                     return null;
 
                 return this.Files.Select(v => v.Duration.Value).Aggregate((a, b) => a.Add(b));
@@ -247,7 +248,8 @@ namespace journeyofcode.GoProTimelapse.ViewModels
 
                 this.TaskText = "Determining video metadata";
 
-                await this.EnsureAllMetadata();
+                if (this._files.Any(f => !f.AreMetadataReady))
+                    await Task.WhenAll(this._files.Select(f => f.MetadataTask));
 
                 this.TaskText = "Performing Sort";
 
@@ -359,8 +361,8 @@ namespace journeyofcode.GoProTimelapse.ViewModels
                 return;
 
             this._awaitingSort = true;
-            if (this._files.Any(f => !f.HasLoadedMetadata))
-                await this.EnsureAllMetadata();
+            if (this._files.Any(f => !f.AreMetadataReady))
+                await Task.WhenAll(this._files.Select(f => f.MetadataTask));
 
             this.Sort();
             this.OnPropertyChanged("StatusText");
@@ -383,17 +385,6 @@ namespace journeyofcode.GoProTimelapse.ViewModels
             this.TaskText = text;
 
             return new Disposer(() => this.TaskText = null);
-        }
-
-        private Task EnsureAllMetadata()
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                var missing = this._files.Where(f => !f.HasLoadedMetadata).ToArray();
-
-                foreach (var fileViewModel in missing)
-                    fileViewModel.EnsureMetadata();
-            });
         }
 
         private Task<T> DoInBackground<T>(Func<T> func)

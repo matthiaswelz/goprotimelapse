@@ -2,17 +2,13 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using journeyofcode.GoProTimelapse.Helpers;
+using journeyofcode.Threading;
 
 namespace journeyofcode.GoProTimelapse.ViewModels
 {
     public sealed class FileViewModel
         : ViewModelBase
     {
-        private TimeSpan? _duration;
-        private int? _fps;
-        private Task _task;
-        private DateTime? _creationDate;
-        private DateTime? _modificationDate;
         public string FullPath { get; private set; }
 
         public string FileName
@@ -25,78 +21,32 @@ namespace journeyofcode.GoProTimelapse.ViewModels
             get { return Path.GetDirectoryName(this.FullPath); }
         }
 
-        public TimeSpan? Duration
+        public TaskLazy<TimeSpan> Duration { get; private set; }
+        public TaskLazy<DateTime> CreationDate { get; private set; }
+        public TaskLazy<DateTime> ModificationDate { get; private set; }
+
+        public bool AreMetadataReady
         {
-            get { return this._duration; }
-            private set
-            {
-                if (value.Equals(this._duration)) return;
-                this._duration = value;
-                
-                this.OnPropertyChanged();
-                this.OnPropertyChanged("DurationText");
-            }
+            get { return this.MetadataTask.IsCompleted; }
         }
+        public Task MetadataTask { get; private set; }
 
         public string DurationText
         {
-            get { return this.Duration.HasValue ? this.Duration.ToString() : "<calculating...>"; }
-        }
-
-        public DateTime? CreationDate
-        {
-            get { return this._creationDate; }
-            private set
-            {
-                if (value.Equals(this._creationDate)) return;
-                this._creationDate = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        public DateTime? ModificationDate
-        {
-            get { return this._modificationDate; }
-            set
-            {
-                if (value.Equals(this._modificationDate)) return;
-                this._modificationDate = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        public bool HasLoadedMetadata
-        {
-            get { return this.Duration.HasValue; }
+            get { return this.Duration.ActionOrDefault(t => t.ToString(), "<calculating...>"); }
         }
 
         public FileViewModel(string path)
         {
             this.FullPath = path;
-            this.Initialize();
-        }
 
-        public void EnsureMetadata()
-        {
-            this._task.Wait();
-        }
+            this.Duration = VideoMetadataProvider.Instance.GetDuration(this.FullPath);
+            this.CreationDate = Task.Run(() => File.GetCreationTimeUtc(this.FullPath));
+            this.ModificationDate = Task.Run(() => File.GetLastWriteTimeUtc(this.FullPath));
 
-        private async void Initialize()
-        {
-            var task = Task.Factory.StartNew(async () =>
-            {
-                return new {
-                    CreationDate = File.GetCreationTimeUtc(this.FullPath),
-                    Duration = await VideoMetadataProvider.Instance.GetDuration(this.FullPath),
-                    ModificationDate = File.GetLastWriteTimeUtc(this.FullPath)
-                };
-            }).Unwrap();
-            this._task = task;
-            var data = await task;
-
-            this.Duration = data.Duration;
-            this.CreationDate = data.CreationDate;
-            this.ModificationDate = data.ModificationDate;
+            this.Duration.WhenValueAvailable(() => this.OnPropertyChanged("DurationText"));
+            
+            this.MetadataTask = Task.WhenAll(this.Duration, this.CreationDate, this.ModificationDate);
         }
     }
 }
